@@ -113,7 +113,7 @@
     }
 
     #ar-button {
-      display: none; /* скрыта по умолчанию */
+      display: none;
       padding: 0.7rem 1.5rem;
       font-size: 1rem;
       border: none;
@@ -122,6 +122,10 @@
       color: white;
       cursor: pointer;
       margin-top: 1rem;
+    }
+
+    #ios-ar-link {
+      display: none;
     }
   </style>
 </head>
@@ -150,17 +154,23 @@
     <div id="model-container">
       <model-viewer id="viewer"
                     src=""
+                    ios-src=""
                     alt="3D модель"
                     auto-rotate
                     camera-controls
                     shadow-intensity="1"
                     ar
                     ar-modes="scene-viewer webxr quick-look"
-                    ios-src="">
+                    disable-zoom>
       </model-viewer>
       <div style="text-align: center;">
         <button id="ar-button">📱 Смотреть в AR</button>
       </div>
+
+      <!-- Скрытая ссылка для iOS Quick Look -->
+      <a id="ios-ar-link" rel="ar">
+        <!-- Без изображения, просто DOM-узел -->
+      </a>
     </div>
   </main>
 
@@ -190,12 +200,11 @@
 
     document.getElementById('ar-button').addEventListener('click', () => {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
       if (isIOS && currentUSDZ) {
-        const a = document.createElement('a');
-        a.setAttribute('rel', 'ar');
-        a.setAttribute('href', currentUSDZ);
-        a.setAttribute('download', '');
-        a.click();
+        const iosLink = document.getElementById('ios-ar-link');
+        iosLink.href = currentUSDZ + '#allowsContentScaling=0';
+        iosLink.click();
       } else {
         const viewer = document.getElementById('viewer');
         viewer.activateAR();
