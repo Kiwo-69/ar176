@@ -181,7 +181,7 @@
     <div class="gallery">
       <div
         class="card"
-        onclick="showModel('https://storage.yandexcloud.net/176/folding_table.glb', 'https://storage.yandexcloud.net/176/Folding_table.usdz')"
+        onclick="showModel('https://storage.yandexcloud.net/176/sofa.glb', 'https://storage.yandexcloud.net/176/sofa.usdz')"
       >
         <img src="https://img.icons8.com/ios-filled/250/sofa.png" alt="Диван" />
         <p>Диван</p>
@@ -189,23 +189,19 @@
     </div>
 
     <div id="model-container">
-       <model-viewer
+      <model-viewer
         id="viewer"
-        src="https://storage.yandexcloud.net/176/folding_table.glb"
-        ios-src="https://storage.yandexcloud.net/176/Folding_table.usdz"
+        src=""
+        ios-src=""
         alt="3D модель"
         auto-rotate
         camera-controls
         ar
-        disable-zoom
         ar-modes="scene-viewer webxr quick-look"
         interaction-prompt="none"
         camera-orbit="0deg 75deg 3m"
-        min-camera-orbit="auto auto 3m"
-        max-camera-orbit="auto auto 3m"
-        
-        >
-      </model-viewer>
+        field-of-view="30deg"
+      ></model-viewer>
 
       <button id="ar-button">📱 Смотреть в AR</button>
     </div>
