@@ -111,6 +111,18 @@
       width: 100%;
       height: 100%;
     }
+
+    #ar-button {
+      display: none; /* скрыта по умолчанию */
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #00aaff;
+      color: white;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -129,7 +141,7 @@
     <h1>🛋️ Галерея 3D Моделей</h1>
 
     <div class="gallery">
-      <div class="card" onclick="showModel('https://storage.yandexcloud.net/176/sofa.glb')">
+      <div class="card" onclick="showModel('https://storage.yandexcloud.net/176/sofa.glb', 'https://storage.yandexcloud.net/176/sofa.usdz')">
         <img src="https://img.icons8.com/ios-filled/250/sofa.png" alt="Диван">
         <p>Диван</p>
       </div>
@@ -142,19 +154,53 @@
                     auto-rotate
                     camera-controls
                     shadow-intensity="1"
-                    ar>
+                    ar
+                    ar-modes="scene-viewer webxr quick-look"
+                    ios-src="">
       </model-viewer>
+      <div style="text-align: center;">
+        <button id="ar-button">📱 Смотреть в AR</button>
+      </div>
     </div>
   </main>
 
   <script>
-    function showModel(url) {
+    let currentGLB = '';
+    let currentUSDZ = '';
+
+    function showModel(glbUrl, usdzUrl) {
       const container = document.getElementById('model-container');
       const viewer = document.getElementById('viewer');
-      viewer.src = url;
+      const arButton = document.getElementById('ar-button');
+
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      currentGLB = glbUrl;
+      currentUSDZ = usdzUrl;
+
+      viewer.src = glbUrl;
+      viewer.setAttribute('ios-src', usdzUrl);
       container.style.display = 'block';
+
+      // Показываем кнопку AR только на телефоне
+      arButton.style.display = isMobile ? 'inline-block' : 'none';
+
       window.scrollTo({ top: container.offsetTop, behavior: 'smooth' });
     }
+
+    document.getElementById('ar-button').addEventListener('click', () => {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS && currentUSDZ) {
+        const a = document.createElement('a');
+        a.setAttribute('rel', 'ar');
+        a.setAttribute('href', currentUSDZ);
+        a.setAttribute('download', '');
+        a.click();
+      } else {
+        const viewer = document.getElementById('viewer');
+        viewer.activateAR();
+      }
+    });
 
     function toggleTheme() {
       document.body.classList.toggle('dark');
