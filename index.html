@@ -189,19 +189,34 @@
     </div>
 
     <div id="model-container">
-      <model-viewer
-        id="viewer"
-        src=""
-        ios-src=""
-        alt="3D модель"
-        auto-rotate
-        camera-controls
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        interaction-prompt="none"
-        camera-orbit="0deg 75deg 3m"
-        field-of-view="30deg"
-      ></model-viewer>
+        <model-viewer
+          id="viewer"
+          src="https://storage.yandexcloud.net/176/sofa.glb"
+          ios-src="https://storage.yandexcloud.net/176/sofa.usdz"
+          alt="3D модель"
+          auto-rotate
+          camera-controls
+          ar
+          ar-modes="scene-viewer webxr quick-look"
+          interaction-prompt="none"
+          camera-orbit="0deg 75deg 3m"
+          min-camera-orbit="auto auto 3m"
+          max-camera-orbit="auto auto 3m"
+          field-of-view="30deg"
+        >
+        </model-viewer>
+
+        <script type="module">
+          window.addEventListener('DOMContentLoaded', () => {
+            const viewer = document.getElementById('viewer');
+            viewer.addEventListener('load', () => {
+              const model = viewer.model;
+              if (model) {
+                model.scale.set(0.1, 0.1, 0.1); // Уменьшаем модель
+              }
+            });
+          });
+        </script>
 
       <button id="ar-button">📱 Смотреть в AR</button>
     </div>
