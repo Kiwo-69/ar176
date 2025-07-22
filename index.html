@@ -1,276 +1,315 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AR176-AR-Preview</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #f0f0f0;
-      --text: #222;
-      --subtext: #333;
-      --price: #d50000;
-      --btn-bg: pink;
-      --btn-bg-hover: pink;
-      --card-bg: #ffffff;
-      --footer-bg: #222;
-      --footer-text: white;
-      --accent-pink: #ffe4ec;
-      --btn-gradient: linear-gradient(135deg, #ff9eb3, #ffd6d6);
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AR176-AR-Preview</title>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+
+  :root {
+    --bg: #f0f0f0;
+    --text: #222;
+    --subtext: #333;
+    --price: #d50000;
+    --btn-bg: pink;
+    --btn-bg-hover: pink;
+    --card-bg: #ffffff;
+    --footer-bg: #222;
+    --footer-text: white;
+    --accent-pink: #ffe4ec;
+    --btn-gradient: linear-gradient(135deg, #ff9eb3, #ffd6d6);
+  }
+
+  .dark {
+    --bg: #121212;
+    --text: #f5f5f5;
+    --subtext: #dddddd;
+    --price: #ff8a80;
+    --btn-bg: #3333aa;
+    --btn-bg-hover: #222288;
+    --card-bg: #ffffff;
+    --footer-bg: #111;
+    --footer-text: #eee;
+    --btn-gradient: linear-gradient(135deg, #4444cc, #222288);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, #d6e4ff, transparent 70%), radial-gradient(circle at bottom left, #ffd6d6, transparent 70%);
+    z-index: -1;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  header {
+    background: #222;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .header-left {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .header-right {
+    display: flex;
+    gap: 10px;
+  }
+
+  .theme-btn {
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 14px;
+    cursor: pointer;
+  }
+
+  /* Фиксируем кнопки под шапкой, сверху */
+  #model-controls {
+    position: fixed;
+    top: 60px; /* под шапкой (которая 55px + паддинги) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    z-index: 1100; /* выше, чем у header */
+
+  }
+
+  #prev-model, #next-model {
+    padding: 14px 22px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background: var(--btn-gradient);
+    color: #222;
+    user-select: none;
+    transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+  }
+
+  #prev-model:hover, #next-model:hover {
+    transform: scale(1.05);
+    background: var(--btn-bg-hover);
+    color: white;
+  }
+
+  body.dark #prev-model,
+  body.dark #next-model {
+    background: var(--btn-bg);
+    color: white;
+  }
+
+  footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 18px 30px;
+    font-size: 14px;
+  }
+
+  footer h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  footer p {
+    margin: 4px 0;
+  }
+
+  .bg-fix {
+    height: 0px;
+    background: var(--footer-bg);
+  }
+
+  main {
+    padding: 20px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex: 1;
+    margin-top: 120px; /* Увеличил отступ, чтобы main не заезжал под фикс кнопки */
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .left, .right {
+    flex: 1 1 360px;
+    min-width: 280px;
+  }
+
+  .left {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .left img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  h2 {
+    font-size: 26px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--subtext);
+  }
+
+  .price {
+    font-size: 20px;
+    color: var(--price);
+  }
+
+  button {
+    padding: 10px 22px;
+    background: var(--btn-bg);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  button:hover {
+    background: var(--btn-bg-hover);
+  }
+
+  #toggle-model {
+    background: var(--btn-gradient);
+    color: #222;
+    font-weight: 600;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(255, 158, 179, 0.4);
+    transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+  }
+
+  body.dark #toggle-model {
+    background: linear-gradient(135deg, #4444cc, #222288);
+    color: white;
+    box-shadow: 0 4px 10px rgba(100, 100, 255, 0.3);
+  }
+
+  #toggle-model:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #ffb0c6, #ffe6e6);
+  }
+
+  body.dark #toggle-model:hover {
+    background: linear-gradient(135deg, #5555dd, #333399);
+  }
+
+  #model-container {
+    display: block;
+    animation: modelIn 1s ease-in-out;
+  }
+
+  model-viewer {
+    width: 100%;
+    height: 420px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: var(--card-bg);
+    animation: rotateModel 5s ease-in-out infinite alternate;
+  }
+
+  @keyframes modelIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) rotateX(10deg);
     }
-    .dark {
-      --bg: #121212;
-      --text: #f5f5f5;
-      --subtext: #dddddd;
-      --price: #ff8a80;
-      --btn-bg: #3333aa;
-      --btn-bg-hover: #222288;
-      --card-bg: #ffffff;
-      --footer-bg: #111;
-      --footer-text: #eee;
-      --btn-gradient: linear-gradient(135deg, #4444cc, #222288);
+    to {
+      opacity: 1;
+      transform: scale(1) rotateX(0deg);
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
+  }
+
+  @keyframes rotateModel {
+    from {
+      transform: rotateY(0deg);
     }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
+    to {
+      transform: rotateY(10deg);
     }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top right, #d6e4ff, transparent 70%), radial-gradient(circle at bottom left, #ffd6d6, transparent 70%);
-      z-index: -1;
-      opacity: 0.5;
-      pointer-events: none;
-    }
+  }
+
+  @media (max-width: 600px) {
     header {
-      background: #222;
-      color: white;
-      padding: 15px 30px;
-      font-size: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-    .header-left {
-      font-weight: bold;
-      font-size: 20px;
-    }
-    .header-right {
-      display: flex;
+      flex-direction: column;
       gap: 10px;
-    }
-    .theme-btn {
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 14px;
-      cursor: pointer;
+      align-items: flex-start;
     }
     #model-controls {
-      position: fixed;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 720px;
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 20px;
-      z-index: 1100;
-    }
-    #prev-model, #next-model {
-      padding: 14px 22px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
-      background: var(--btn-gradient);
-      color: #222;
-      user-select: none;
-      transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
-    }
-    #prev-model:hover, #next-model:hover {
-      transform: scale(1.05);
-      background: var(--btn-bg-hover);
-      color: white;
-    }
-    body.dark #prev-model,
-    body.dark #next-model {
-      background: var(--btn-bg);
-      color: white;
-    }
-    footer {
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      padding: 18px 30px;
-      font-size: 14px;
-    }
-    footer h3 {
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-    footer p {
-      margin: 4px 0;
-    }
-    .bg-fix {
-      height: 0px;
-      background: var(--footer-bg);
+      top: 110px; /* под шапкой на мобилах */
     }
     main {
-      padding: 20px 20px 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      flex: 1;
-      margin-top: 120px;
+      margin-top: 160px;
     }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
-    }
-    .left, .right {
-      flex: 1 1 360px;
-      min-width: 280px;
-    }
-    .left {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-    .left img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 12px;
-    }
-    .right {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    h2 {
-      font-size: 26px;
-      margin-bottom: 5px;
-    }
-    p {
-      font-size: 16px;
-      color: var(--subtext);
-    }
-    .price {
-      font-size: 20px;
-      color: var(--price);
-    }
-    button {
-      padding: 10px 22px;
-      background: var(--btn-bg);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    button:hover {
-      background: var(--btn-bg-hover);
-    }
-    #toggle-model {
-      background: var(--btn-gradient);
-      color: #222;
-      font-weight: 600;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      box-shadow: 0 4px 10px rgba(255, 158, 179, 0.4);
-      transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
-    }
-    body.dark #toggle-model {
-      background: linear-gradient(135deg, #4444cc, #222288);
-      color: white;
-      box-shadow: 0 4px 10px rgba(100, 100, 255, 0.3);
-    }
-    #toggle-model:hover {
-      transform: scale(1.03);
-      background: linear-gradient(135deg, #ffb0c6, #ffe6e6);
-    }
-    body.dark #toggle-model:hover {
-      background: linear-gradient(135deg, #5555dd, #333399);
-    }
-    #model-container {
-      display: block;
-      animation: modelIn 1s ease-in-out;
-    }
-    model-viewer {
-      width: 100%;
-      height: 420px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      background-color: var(--card-bg);
-      animation: rotateModel 5s ease-in-out infinite alternate;
-    }
-    @keyframes modelIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95) rotateX(10deg);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) rotateX(0deg);
-      }
-    }
-    @keyframes rotateModel {
-      from {
-        transform: rotateY(0deg);
-      }
-      to {
-        transform: rotateY(10deg);
-      }
-    }
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-      }
-      #model-controls {
-        top: 110px;
-      }
-      main {
-        margin-top: 160px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 <header>
@@ -281,6 +320,7 @@
   </div>
 </header>
 
+<!-- Фиксированные кнопки под шапкой -->
 <div id="model-controls">
   <button id="prev-model">← Назад</button>
   <button id="next-model">Вперед →</button>
@@ -313,11 +353,6 @@
           interaction-prompt="auto"
           style="width: 100%; height: 420px; border-radius: 10px; border: 1px solid #ccc; background-color: var(--card-bg);">
         </model-viewer>
-
-        <!-- Прямая ссылка для iOS AR -->
-        <a rel="ar" href="https://storage.yandexcloud.net/4242/Folding_Table.usdz">
-          <img src="https://storage.yandexcloud.net/4242/images/table.jpg" alt="Открыть в AR на iPhone" style="width:0;height:0;" />
-        </a>
       </div>
     </div>
   </div>
@@ -329,7 +364,10 @@
   <p><b>Тел:</b> +7 (913) 483-97-14 | <b>Телеграмм:</b>@hendov4ik</p>
   <p><b>Этот сайт демонстрирует возможность интеграции 3D и AR-моделей на сайт вашей компании, чтобы покупатели могли визуально оценить, как ваша продукция впишется в их интерьер. Мы можем создать и разместить на вашем сайте любое количество моделей.</b></p>
 </footer>
+
 <div class="bg-fix"></div>
+
+<a id="ios-ar-link" rel="ar"></a>
 
 <script>
   const toggleBtn = document.getElementById("toggle-model");
@@ -357,6 +395,32 @@
       materials: "Прочный алюминий, влагостойкая столешница.",
       size: "120×60×70 см в разложенном виде.",
       features: "Быстро складывается, регулируемые ножки, чехол в комплекте."
+    },
+    {
+      src: "https://storage.yandexcloud.net/4242/office_chair.glb",
+      iosSrc: "https://storage.yandexcloud.net/4242/Office_Chair.usdz",
+      alt: "Офисное кресло",
+      title: "Офисное кресло",
+      leftImg: "https://storage.yandexcloud.net/4242/images/chair.png",
+      description: "<b>Описание:</b> Удобное кресло для длительной работы за компьютером. Эргономичный дизайн снижает нагрузку на спину.",
+      price: 7600,
+      color: "Чёрный",
+      materials: "Кожаная обивка, металлический каркас.",
+      size: "Высота 110 см, ширина 60 см.",
+      features: "Регулировка высоты, подлокотники, вращающийся механизм."
+    },
+    {
+      src: "https://storage.yandexcloud.net/4242/chesterfield-sofa.glb",
+      iosSrc: "https://storage.yandexcloud.net/4242/chesterfield-sofa.usdz",
+      alt: "Диван Chesterfield",
+      title: "Диван Chesterfield",
+      leftImg: "https://storage.yandexcloud.net/4242/images/sofa.jpg",
+      description: "<b>Описание:</b> Роскошный диван в классическом стиле. Идеально подходит для гостиной или кабинета.",
+      price: 15200,
+      color: "Коричневый",
+      materials: "Натуральная кожа, массив дерева.",
+      size: "200×90×80 см.",
+      features: "Классические пуговицы, глубокая посадка, крепкая конструкция."
     }
   ];
 
