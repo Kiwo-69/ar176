@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AR176-AR-Preview</title>
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AR176-AR-Preview</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
 
   :root {
     --bg: #f0f0f0;
@@ -312,183 +312,193 @@
 </style>
 </head>
 <body>
-<header>
-  <div class="header-left">AR176-AR-Preview</div>
-  <div class="header-right">
-    <button class="theme-btn" onclick="toggleTheme()">Сменить тему</button>
-    <button class="theme-btn">Контакты</button>
-  </div>
-</header>
-
-<!-- Фиксированные кнопки под шапкой -->
-<div id="model-controls">
-  <button id="prev-model">← Назад</button>
-  <button id="next-model">Вперед →</button>
-</div>
-
-<main>
-  <div class="container">
-    <div class="left">
-      <img id="left-image" class="circle-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red_Dot.svg/120px-Red_Dot.svg.png" alt="Цветной кружок" />
+  <header>
+    <div class="header-left">AR176-AR-Preview</div>
+    <div class="header-right">
+      <button class="theme-btn" onclick="toggleTheme()">Сменить тему</button>
+      <button class="theme-btn">Контакты</button>
     </div>
-    <div class="right">
-      <h2 id="model-title">Стол раскладной туристический</h2>
-      <p><b>Цвет:</b> <span id="color">Белый</span></p>
-      <p><b>Цена:</b> <span class="price" id="price">5800 руб.</span> <small>(-25%)</small></p>
-      <p id="description"><b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга.</p>
-      <p><b>Материалы:</b> <span id="materials">Прочный алюминий, влагостойкая столешница.</span></p>
-      <p><b>Размер:</b> <span id="size">120×60×70 см в разложенном виде.</span></p>
-      <p><b>Особенности:</b> <span id="features">Быстро складывается, регулируемые ножки, чехол в комплекте.</span></p>
-      <button id="toggle-model">Скрыть 3D-просмотр</button>
-      <div id="model-container" style="margin-top: 15px;">
-        <model-viewer
-          id="viewer"
-          src="https://storage.yandexcloud.net/4242/folding_table.glb"
-          ios-src="https://storage.yandexcloud.net/4242/Folding_Table.usdz"
-          alt="Стол раскладной туристический"
-          auto-rotate
-          camera-controls
-          ar
-          ar-modes="scene-viewer webxr quick-look"
-          interaction-prompt="auto"
-          style="width: 100%; height: 420px; border-radius: 10px; border: 1px solid #ccc; background-color: var(--card-bg);">
-        </model-viewer>
+  </header>
+
+  <div id="model-controls">
+    <button id="prev-model">← Назад</button>
+    <button id="next-model">Вперед →</button>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="left">
+        <img id="left-image" class="circle-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red_Dot.svg/120px-Red_Dot.svg.png" alt="Цветной кружок" />
+      </div>
+      <div class="right">
+        <h2 id="model-title">Стол раскладной туристический</h2>
+        <p><b>Цвет:</b> <span id="color">Белый</span></p>
+        <p><b>Цена:</b> <span class="price" id="price">5800 руб.</span> <small>(-25%)</small></p>
+        <p id="description"><b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга.</p>
+        <p><b>Материалы:</b> <span id="materials">Прочный алюминий, влагостойкая столешница.</span></p>
+        <p><b>Размер:</b> <span id="size">120×60×70 см в разложенном виде.</span></p>
+        <p><b>Особенности:</b> <span id="features">Быстро складывается, регулируемые ножки, чехол в комплекте.</span></p>
+        <button id="toggle-model">Скрыть 3D-просмотр</button>
+        <button id="ios-ar-button" style="margin-top:10px; display:none;">Открыть AR на iPhone</button>
+        <div id="model-container" style="margin-top: 15px;">
+          <model-viewer
+            id="viewer"
+            src="https://storage.yandexcloud.net/4242/folding_table.glb"
+            ios-src="https://storage.yandexcloud.net/4242/Folding_Table.usdz"
+            alt="Стол раскладной туристический"
+            auto-rotate
+            camera-controls
+            ar
+            ar-modes="scene-viewer webxr quick-look"
+            interaction-prompt="auto"
+            style="width: 100%; height: 420px; border-radius: 10px; border: 1px solid #ccc; background-color: var(--card-bg);">
+          </model-viewer>
+        </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<footer>
-  <h3>О нас</h3>
-  <p>Команда AR176 — создаём AR-решения нового поколения.</p>
-  <p><b>Тел:</b> +7 (913) 483-97-14 | <b>Телеграмм:</b>@hendov4ik</p>
-  <p><b>Этот сайт демонстрирует возможность интеграции 3D и AR-моделей на сайт вашей компании, чтобы покупатели могли визуально оценить, как ваша продукция впишется в их интерьер. Мы можем создать и разместить на вашем сайте любое количество моделей.</b></p>
-</footer>
+  <footer>
+    <h3>О нас</h3>
+    <p>Команда AR176 — создаём AR-решения нового поколения.</p>
+    <p><b>Тел:</b> +7 (913) 483-97-14 | <b>Телеграмм:</b>@hendov4ik</p>
+    <p><b>Этот сайт демонстрирует возможность интеграции 3D и AR-моделей на сайт вашей компании...</b></p>
+  </footer>
 
-<div class="bg-fix"></div>
+  <div class="bg-fix"></div>
+  <a id="ios-ar-link" rel="ar" style="display: none;"></a>
 
-<a id="ios-ar-link" rel="ar"></a>
+  <script>
+    const toggleBtn = document.getElementById("toggle-model");
+    const modelContainer = document.getElementById("model-container");
+    const viewer = document.getElementById("viewer");
+    const modelTitle = document.getElementById("model-title");
+    const leftImage = document.getElementById("left-image");
+    const description = document.getElementById("description");
+    const priceElem = document.getElementById("price");
+    const colorElem = document.getElementById("color");
+    const materialsElem = document.getElementById("materials");
+    const sizeElem = document.getElementById("size");
+    const featuresElem = document.getElementById("features");
+    const iosARLink = document.getElementById("ios-ar-link");
+    const iosARButton = document.getElementById("ios-ar-button");
 
-<script>
-  const toggleBtn = document.getElementById("toggle-model");
-  const modelContainer = document.getElementById("model-container");
-  const viewer = document.getElementById("viewer");
-  const modelTitle = document.getElementById("model-title");
-  const leftImage = document.getElementById("left-image");
-  const description = document.getElementById("description");
-  const priceElem = document.getElementById("price");
-  const colorElem = document.getElementById("color");
-  const materialsElem = document.getElementById("materials");
-  const sizeElem = document.getElementById("size");
-  const featuresElem = document.getElementById("features");
+    const models = [
+      {
+        src: "https://storage.yandexcloud.net/4242/folding_table.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/Folding_Table.usdz",
+        alt: "Стол раскладной туристический",
+        title: "Стол раскладной туристический",
+        leftImg: "https://storage.yandexcloud.net/4242/images/table.jpg",
+        description: "<b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга.",
+        price: 5800,
+        color: "Белый",
+        materials: "Прочный алюминий, влагостойкая столешница.",
+        size: "120×60×70 см в разложенном виде.",
+        features: "Быстро складывается, регулируемые ножки, чехол в комплекте."
+      },
+      {
+        src: "https://storage.yandexcloud.net/4242/chait.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/chait.usdz",
+        alt: "Офисное кресло",
+        title: "Офисное кресло",
+        leftImg: "https://storage.yandexcloud.net/4242/images/chair.png",
+        description: "<b>Описание:</b> Удобное кресло для длительной работы за компьютером. Эргономичный дизайн снижает нагрузку на спину.",
+        price: 7600,
+        color: "Чёрный",
+        materials: "Кожаная обивка, металлический каркас.",
+        size: "Высота 110 см, ширина 60 см.",
+        features: "Регулировка высоты, подлокотники, вращающийся механизм."
+      },
+      {
+        src: "https://storage.yandexcloud.net/4242/chesterfield-sofa.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/chesterfield-sofa.usdz",
+        alt: "Диван Chesterfield",
+        title: "Диван Chesterfield",
+        leftImg: "https://storage.yandexcloud.net/4242/images/sofa.jpg",
+        description: "<b>Описание:</b> Роскошный диван в классическом стиле. Идеально подходит для гостиной или кабинета.",
+        price: 15200,
+        color: "Коричневый",
+        materials: "Натуральная кожа, массив дерева.",
+        size: "200×90×80 см.",
+        features: "Классические пуговицы, глубокая посадка, крепкая конструкция."
+      }
+    ];
 
-  const models = [
-    {
-      src: "https://storage.yandexcloud.net/4242/folding_table.glb",
-      iosSrc: "https://storage.yandexcloud.net/4242/Folding_Table.usdz",
-      alt: "Стол раскладной туристический",
-      title: "Стол раскладной туристический",
-      leftImg: "https://storage.yandexcloud.net/4242/images/table.jpg",
-      description: "<b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга.",
-      price: 5800,
-      color: "Белый",
-      materials: "Прочный алюминий, влагостойкая столешница.",
-      size: "120×60×70 см в разложенном виде.",
-      features: "Быстро складывается, регулируемые ножки, чехол в комплекте."
-    },
-    {
-      src: "https://storage.yandexcloud.net/4242/office_chair.glb",
-      iosSrc: "https://storage.yandexcloud.net/4242/Office_Chair.usdz",
-      alt: "Офисное кресло",
-      title: "Офисное кресло",
-      leftImg: "https://storage.yandexcloud.net/4242/images/chair.png",
-      description: "<b>Описание:</b> Удобное кресло для длительной работы за компьютером. Эргономичный дизайн снижает нагрузку на спину.",
-      price: 7600,
-      color: "Чёрный",
-      materials: "Кожаная обивка, металлический каркас.",
-      size: "Высота 110 см, ширина 60 см.",
-      features: "Регулировка высоты, подлокотники, вращающийся механизм."
-    },
-    {
-      src: "https://storage.yandexcloud.net/4242/chesterfield-sofa.glb",
-      iosSrc: "https://storage.yandexcloud.net/4242/chesterfield-sofa.usdz",
-      alt: "Диван Chesterfield",
-      title: "Диван Chesterfield",
-      leftImg: "https://storage.yandexcloud.net/4242/images/sofa.jpg",
-      description: "<b>Описание:</b> Роскошный диван в классическом стиле. Идеально подходит для гостиной или кабинета.",
-      price: 15200,
-      color: "Коричневый",
-      materials: "Натуральная кожа, массив дерева.",
-      size: "200×90×80 см.",
-      features: "Классические пуговицы, глубокая посадка, крепкая конструкция."
+    let currentIndex = 0;
+
+    function updateModel(index) {
+      const model = models[index];
+      viewer.setAttribute("src", model.src);
+      viewer.setAttribute("ios-src", model.iosSrc);
+      viewer.setAttribute("alt", model.alt);
+      modelTitle.textContent = model.title;
+      leftImage.src = model.leftImg;
+      leftImage.alt = model.alt;
+      description.innerHTML = model.description;
+      priceElem.textContent = model.price.toLocaleString('ru-RU') + " руб.";
+      colorElem.textContent = model.color;
+      materialsElem.textContent = model.materials;
+      sizeElem.textContent = model.size;
+      featuresElem.textContent = model.features;
+
+      iosARLink.href = model.iosSrc;
     }
-  ];
 
-  let currentIndex = 0;
+    document.getElementById("next-model").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % models.length;
+      updateModel(currentIndex);
+    });
 
-  function updateModel(index) {
-    const model = models[index];
-    viewer.setAttribute("src", model.src);
-    viewer.setAttribute("ios-src", model.iosSrc);
-    viewer.setAttribute("alt", model.alt);
-    modelTitle.textContent = model.title;
-    leftImage.src = model.leftImg;
-    leftImage.alt = model.alt;
-    description.innerHTML = model.description;
-    priceElem.textContent = model.price.toLocaleString('ru-RU') + " руб.";
-    colorElem.textContent = model.color;
-    materialsElem.textContent = model.materials;
-    sizeElem.textContent = model.size;
-    featuresElem.textContent = model.features;
-  }
+    document.getElementById("prev-model").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + models.length) % models.length;
+      updateModel(currentIndex);
+    });
 
-  document.getElementById("next-model").addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % models.length;
-    updateModel(currentIndex);
-  });
+    toggleBtn.addEventListener("click", () => {
+      const visible = modelContainer.style.display !== "none";
+      modelContainer.style.display = visible ? "none" : "block";
+      toggleBtn.textContent = visible ? "Включить 3D-просмотр" : "Скрыть 3D-просмотр";
+    });
 
-  document.getElementById("prev-model").addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + models.length) % models.length;
-    updateModel(currentIndex);
-  });
-
-  toggleBtn.addEventListener("click", () => {
-    const visible = modelContainer.style.display !== "none";
-    if (visible) {
-      modelContainer.style.display = "none";
-      toggleBtn.textContent = "Включить 3D-просмотр";
-    } else {
-      modelContainer.style.display = "block";
-      toggleBtn.textContent = "Скрыть 3D-просмотр";
+    function setTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
     }
-  });
 
-  function setTheme(theme) {
-    if (theme === "dark") {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
+    function toggleTheme() {
+      if (document.body.classList.contains("dark")) {
+        setTheme("light");
+      } else {
+        setTheme("dark");
+      }
     }
-    localStorage.setItem("theme", theme);
-  }
 
-  function toggleTheme() {
-    if (document.body.classList.contains("dark")) {
-      setTheme("light");
-    } else {
-      setTheme("dark");
-    }
-  }
+    iosARButton.addEventListener("click", () => {
+      iosARLink.click();
+    });
 
-  (function() {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      setTheme("dark");
+    function isiOS() {
+      return /iPhone|iPad|iPod/.test(navigator.userAgent);
     }
-    updateModel(currentIndex);
-  })();
-</script>
+
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme("dark");
+      }
+      updateModel(currentIndex);
+
+      if (isiOS()) {
+        iosARButton.style.display = "inline-block";
+      }
+    })();
+  </script>
 </body>
 </html>
