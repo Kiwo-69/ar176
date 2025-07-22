@@ -2,261 +2,504 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>3D Галерея</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Карточка Crocs</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --card-bg: #f5f5f5;
+      --bg: #f0f0f0;
+      --text: #222;
+      --subtext: #333;
+      --price: #d50000;
+      --btn-bg: #0066cc;
+      --btn-bg-hover: #004999;
+      --card-bg: #ffffff;
+      --footer-bg: #222;
+      --footer-text: white;
+      --accent-pink: #ffe4ec;
+      --btn-gradient: linear-gradient(135deg, #ff9eb3, #ffd6d6);
     }
 
-    body.dark {
-      --bg: #111111;
-      --text: #ffffff;
-      --card-bg: #222222;
+    .dark {
+      --bg: #121212;
+      --text: #f5f5f5;
+      --subtext: #dddddd;
+      --price: #ff8a80;
+      --btn-bg: #3333aa;
+      --btn-bg-hover: #222288;
+      --card-bg: #222;
+      --footer-bg: #111;
+      --footer-text: #eee;
+      --btn-gradient: linear-gradient(135deg, #4444cc, #222288);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
     }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(145deg, #e6e6e6, #ffffff);
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
       color: var(--text);
-      transition: background 0.6s ease, color 0.4s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    body.dark {
-      background: linear-gradient(145deg, #0e0e0e, #1b1b1b);
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, #d6e4ff, transparent 70%), radial-gradient(circle at bottom left, #ffd6d6, transparent 70%);
+      z-index: -1;
+      opacity: 0.5;
+      pointer-events: none;
     }
 
     header {
-      background: var(--card-bg);
-      padding: 1rem 2rem;
+      background: #222;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background 0.4s ease;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
-    .nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav a {
-      text-decoration: none;
-      color: var(--text);
+    .header-left {
       font-weight: bold;
-      transition: color 0.3s;
+      font-size: 20px;
     }
 
-    .nav a:hover {
-      color: #00aaff;
+    .header-right {
+      display: flex;
+      gap: 10px;
     }
 
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--text);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      color: var(--text);
+    .theme-btn {
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 14px;
       cursor: pointer;
-      transition: all 0.4s ease;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    .theme-toggle:hover {
-      background: var(--text);
-      color: var(--bg);
+    body.dark .theme-btn {
+      background: #3333aa;
+      color: #eee;
+    }
+
+    body.dark .theme-btn:hover {
+      background: #222288;
     }
 
     main {
-      padding: 2rem;
+      padding: 100px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      flex: 1;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .gallery {
+    .container {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: 30px;
       justify-content: center;
     }
 
-    .card {
+    .left,
+    .right {
+      flex: 1 1 360px;
+      min-width: 280px;
+    }
+
+    .left {
       background: var(--card-bg);
-      border-radius: 18px;
-      padding: 1rem;
-      width: 250px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s, box-shadow 0.3s, background 0.4s;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
 
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    }
-
-    .card img {
+    .left img {
       width: 100%;
-      border-radius: 10px;
-      background: white;
-      animation: float 3s ease-in-out infinite;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
     }
 
-    @keyframes float {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-6px);
-      }
-      100% {
-        transform: translateY(0);
-      }
+    .right {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--subtext);
+    }
+
+    .price {
+      font-size: 20px;
+      color: var(--price);
+    }
+
+    button {
+      padding: 10px 22px;
+      background: var(--btn-bg);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--btn-bg-hover);
+    }
+
+    #toggle-model {
+      background: var(--btn-gradient);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(255, 158, 179, 0.4);
+      transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+      align-self: start;
+    }
+
+    body.dark #toggle-model {
+      background: linear-gradient(135deg, #4444cc, #222288);
+      color: white;
+      box-shadow: 0 4px 10px rgba(100, 100, 255, 0.3);
+    }
+
+    #toggle-model:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ffb0c6, #ffe6e6);
+      color: #222;
+    }
+
+    body.dark #toggle-model:hover {
+      background: linear-gradient(135deg, #5555dd, #333399);
+      color: white;
     }
 
     #model-container {
-      margin-top: 3rem;
-      width: 100%;
-      max-width: 800px;
-      height: 500px;
-      display: none;
-      margin-left: auto;
-      margin-right: auto;
+      display: block;
+      animation: modelIn 1s ease-in-out;
+      margin-top: 15px;
       position: relative;
     }
 
     model-viewer {
       width: 100%;
-      height: 100%;
-      --poster-color: transparent;
+      height: 420px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background-color: var(--card-bg);
+      animation: rotateModel 5s ease-in-out infinite alternate;
+      display: block;
     }
 
-    #ar-button {
+    /* Кнопки переключения моделей в углах */
+    #prev-model, #next-model {
       position: absolute;
-      right: 15px;
-      bottom: 15px;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      border: none;
+      top: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
       border-radius: 8px;
-      background-color: #00aaff;
-      color: white;
       cursor: pointer;
-      display: none;
+      border: none;
+      box-shadow: 0 4px 10px rgba(255, 158, 179, 0.4);
+      transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+      background: var(--btn-gradient);
+      color: #222;
       user-select: none;
-      box-shadow: 0 4px 8px rgba(0, 170, 255, 0.5);
-      transition: background-color 0.3s ease;
+      z-index: 10;
+      user-select:none;
     }
 
-    #ar-button:hover {
-      background-color: #0088cc;
+    #prev-model {
+      left: 10px;
     }
 
-    #ios-ar-link {
-      display: none;
+    #next-model {
+      right: 10px;
+    }
+
+    body.dark #prev-model,
+    body.dark #next-model {
+      background: linear-gradient(135deg, #4444cc, #222288);
+      color: white;
+      box-shadow: 0 4px 10px rgba(100, 100, 255, 0.3);
+    }
+
+    #prev-model:hover,
+    #next-model:hover {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #ffb0c6, #ffe6e6);
+      color: #222;
+      box-shadow: 0 6px 12px rgba(255, 150, 180, 0.7);
+    }
+
+    body.dark #prev-model:hover,
+    body.dark #next-model:hover {
+      background: linear-gradient(135deg, #5555dd, #333399);
+      color: white;
+      box-shadow: 0 6px 12px rgba(120, 120, 255, 0.7);
+    }
+
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 18px 30px;
+      font-size: 14px;
+    }
+
+    footer h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    footer p {
+      margin: 4px 0;
+    }
+
+    .bg-fix {
+      height: 0px;
+      background: var(--footer-bg);
+    }
+
+    @keyframes modelIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
+      }
+    }
+
+    @keyframes rotateModel {
+      from {
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotateY(10deg);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .right, .left {
+        width: 100% !important;
+      }
+      #prev-model, #next-model {
+        top: 5px;
+        padding: 10px 16px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav">
-      <a href="#">Все</a>
-      <a href="#">Мебель</a>
-      <a href="#">Спорт</a>
-      <a href="#">Техника</a>
+    <div class="header-left">AR176-AR-Preview</div>
+    <div class="header-right">
+      <button class="theme-btn" onclick="toggleTheme()">Сменить тему</button>
+      <button class="theme-btn">Контакты</button>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()">Сменить тему</button>
   </header>
 
   <main>
-    <h1>🛋️ Галерея 3D Моделей</h1>
+    <div class="container">
+      <div class="left">
+        <img id="left-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red_Dot.svg/120px-Red_Dot.svg.png" alt="Цветной кружок" />
+      </div>
 
-    <div class="gallery">
-      <div
-        class="card"
-        onclick="showModel('https://storage.yandexcloud.net/176/sofa.glb', 'https://storage.yandexcloud.net/176/sofa.usdz')"
-      >
-        <img src="https://img.icons8.com/ios-filled/250/sofa.png" alt="Диван" />
-        <p>Диван</p>
+      <div class="right">
+        <h2 id="model-title">Стол раскладной туристический</h2>
+        <p><b>Цвет:</b> Белый</p>
+        <p><b>Цена:</b> <span class="price">5 800 руб.</span> <small>(-25%)</small></p>
+        <p id="description"><b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга.</p>
+        <p><b>Материалы:</b> Прочный алюминий, влагостойкая столешница.</p>
+        <p><b>Размер:</b> 120×60×70 см в разложенном виде.</p>
+        <p><b>Особенности:</b> Быстро складывается, регулируемые ножки, чехол в комплекте.</p>
+
+        <button id="toggle-model">Скрыть 3D-просмотр</button>
+
+        <div id="model-container" style="position: relative; margin-top: 15px;">
+          <model-viewer
+            id="viewer"
+            src="https://storage.yandexcloud.net/4242/folding_table.glb"
+            ios-src="https://storage.yandexcloud.net/4242/Folding_Table.usdz"
+            alt="Стол раскладной туристический"
+            auto-rotate
+            camera-controls
+            ar
+            ar-modes="scene-viewer webxr quick-look"
+            interaction-prompt="auto"
+            style="width: 100%; height: 420px; border-radius: 10px; border: 1px solid #ccc; background-color: var(--card-bg);">
+          </model-viewer>
+
+          <!-- Кнопки вперед/назад сверху -->
+          <button id="prev-model">Вперед →</button>
+          <button id="next-model">← Назад</button>
+        </div>
       </div>
     </div>
-
-    <div id="model-container">
-      <model-viewer
-        id="viewer"
-        src=""
-        ios-src=""
-        alt="3D модель"
-        auto-rotate
-        camera-controls
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        interaction-prompt="none"
-        camera-orbit="0deg 75deg 3m"
-        field-of-view="30deg"
-      ></model-viewer>
-
-      <button id="ar-button">📱 Смотреть в AR</button>
-    </div>
-
-    <a id="ios-ar-link" rel="ar"></a>
   </main>
 
+  <footer>
+    <h3>О нас</h3>
+    <p>Команда AR176 — создаём AR-решения нового поколения.</p>
+    <p><b>Тел:</b> +7 (913) 483-97-14 | <b>Телеграмм:</b>@hendov4ik</p>
+    <p><b>Этот сайт демонстрирует возможность интеграции 3D и AR-моделей на сайт вашей компании, чтобы покупатели могли визуально оценить, как ваша продукция впишется в их интерьер. Мы можем создать и разместить на вашем сайте любое количество моделей.</b></p>
+  </footer>
+
+  <div class="bg-fix"></div>
+
+  <a id="ios-ar-link" rel="ar"></a>
+
   <script>
-    let currentGLB = "";
-    let currentUSDZ = "";
+    const toggleBtn = document.getElementById("toggle-model");
+    const modelContainer = document.getElementById("model-container");
+    const viewer = document.getElementById("viewer");
+    const modelTitle = document.getElementById("model-title");
+    const leftImage = document.getElementById("left-image");
+    const description = document.getElementById("description");
 
-    function showModel(glbUrl, usdzUrl) {
-      const container = document.getElementById("model-container");
-      const viewer = document.getElementById("viewer");
-      const arButton = document.getElementById("ar-button");
+    // Массив моделей с пенис-картинками (разных цветов) и описаниями (копия первой)
+    const models = [
+      {
+        src: "https://storage.yandexcloud.net/4242/folding_table.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/Folding_Table.usdz",
+        alt: "Стол раскладной туристический",
+        title: "Стол раскладной туристический",
+        leftImg: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red_Dot.svg/120px-Red_Dot.svg.png",
+        description: "<b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга."
+      },
+      {
+        src: "https://storage.yandexcloud.net/4242/office_chair.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/Office_Chair.usdz",
+        alt: "Офисное кресло",
+        title: "Офисное кресло",
+        leftImg: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Blue_Dot.svg/120px-Blue_Dot.svg.png",
+        description: "<b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга."
+      },
+      {
+        src: "https://storage.yandexcloud.net/4242/chesterfield-sofa.glb",
+        iosSrc: "https://storage.yandexcloud.net/4242/chesterfield-sofa.usdz",
+        alt: "Диван Chesterfield",
+        title: "Диван Chesterfield",
+        leftImg: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Green_Dot.svg/120px-Green_Dot.svg.png",
+        description: "<b>Описание:</b> Лёгкий, компактный и удобный в транспортировке. Идеально подходит для пикников, дачи и кемпинга."
+      }
+    ];
 
-      currentGLB = glbUrl;
-      currentUSDZ = usdzUrl;
+    let currentIndex = 0;
 
-      viewer.src = glbUrl;
-      viewer.setAttribute("ios-src", usdzUrl);
-      container.style.display = "block";
-
-      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      arButton.style.display = isMobile ? "inline-block" : "none";
-
-      window.scrollTo({ top: container.offsetTop, behavior: "smooth" });
+    function updateModel(index) {
+      const model = models[index];
+      viewer.setAttribute("src", model.src);
+      viewer.setAttribute("ios-src", model.iosSrc);
+      viewer.setAttribute("alt", model.alt);
+      modelTitle.textContent = model.title;
+      leftImage.src = model.leftImg;
+      leftImage.alt = model.alt;
+      description.innerHTML = model.description;
     }
 
-    document.getElementById("ar-button").addEventListener("click", () => {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-      if (isIOS && currentUSDZ) {
-        const iosLink = document.getElementById("ios-ar-link");
-        iosLink.href = currentUSDZ + "#allowsContentScaling=0";
-        iosLink.click();
-      } else {
-        const viewer = document.getElementById("viewer");
-        viewer.activateAR();
-      }
+    // Кнопка "Вперед" (левая в верхнем углу)
+    document.getElementById("prev-model").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % models.length;
+      updateModel(currentIndex);
     });
+
+    // Кнопка "Назад" (правая в верхнем углу)
+    document.getElementById("next-model").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + models.length) % models.length;
+      updateModel(currentIndex);
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      const visible = modelContainer.style.display === "block";
+      modelContainer.style.display = visible ? "none" : "block";
+      toggleBtn.textContent = visible ? "Включить 3D-просмотр" : "Скрыть 3D-просмотр";
+    });
+
+    function setTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
+    }
 
     function toggleTheme() {
-      document.body.classList.toggle("dark");
-      localStorage.setItem(
-        "theme",
-        document.body.classList.contains("dark") ? "dark" : "light"
-      );
+      if (document.body.classList.contains("dark")) {
+        setTheme("light");
+      } else {
+        setTheme("dark");
+      }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark");
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+         if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme("dark");
       }
-    });
+      updateModel(currentIndex);
+    })();
   </script>
 </body>
 </html>
